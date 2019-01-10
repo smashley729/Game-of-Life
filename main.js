@@ -41,6 +41,21 @@ document.getElementById("board").append(table);
  */
 
 const paint = () => {
+
+  let tdArr = Array.from(document.getElementsByTagName('td'));
+  for (let i = 0; i < tdArr.length; i++) {
+    let currCell = tdArr[i]
+    let cellCol = currCell.dataset.col
+    let cellRow = currCell.dataset.row
+
+    if (gol.board[cellRow][cellCol] === 1) {
+      currCell.className = 'alive'
+    }
+  }
+}
+
+paint()
+
   // TODO:
   //   1. For each <td> in the table:
   //     a. If its corresponding cell in gol instance is alive,
@@ -53,7 +68,7 @@ const paint = () => {
   // HINT:
   //   https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
   //   https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName
-}
+
 
 
 /**
