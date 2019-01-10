@@ -51,10 +51,13 @@ const paint = () => {
     if (gol.board[cellRow][cellCol] === 1) {
       currCell.className = 'alive'
     }
+    else{
+      currCell.className = '';
+    }
   }
 }
 
-paint()
+
 
   // TODO:
   //   1. For each <td> in the table:
@@ -75,25 +78,55 @@ paint()
  * Event Listeners
  */
 
+function enableAutoPlay(){
+  gol.tick();
+  paint();
+}
+
 document.getElementById("board").addEventListener("click", event => {
   // TODO: Toggle clicked cell (event.target) and paint
+  let cell = event.target;
+  let col = cell.dataset.col;
+  let row = cell.dataset.row;
+  gol.board[row][col] = 1;
+  paint();
+  console.log(event.target);
+  console.log(gol.board);
+
 });
 
 document.getElementById("step_btn").addEventListener("click", event => {
+  enableAutoPlay();
   // TODO: Do one gol tick and paint
 });
 
+
 document.getElementById("play_btn").addEventListener("click", event => {
+
+    setInterval(enableAutoPlay, 500);
+
+  
   // TODO: Start playing by calling `tick` and paint
   // repeatedly every fixed time interval.
   // HINT:
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval
-});
+}, {once: true});
 
 document.getElementById("random_btn").addEventListener("click", event => {
+  for(let row = 0; row < gol.height; row++){
+    for(let col = 0; col < gol.width; col++){
+      gol.board[row][col] = Math.round(Math.random());
+      console.log(gol.board[row][col]);
+    }
+  }
+  console.log(gol.board);
+  paint();
   // TODO: Randomize the board and paint
 });
 
 document.getElementById("clear_btn").addEventListener("click", event => {
+  gol.board = gol.makeBoard();
+  
+  paint();
   // TODO: Clear the board and paint
 });
